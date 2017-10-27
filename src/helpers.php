@@ -2,12 +2,15 @@
 
 if (! function_exists('jsonapi')) {
     /**
-     * Respond JSONAPI format
-     *
-     * @return string
+     * @param \Illuminate\Database\Eloquent\Model|array|\Illuminate\Support\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator $data
+     * @param \NgocTP\EasyJsonApi\ExtendedTransformerAbstract $transformer
+     * @param array $includes
+     * @param string $name
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    function jsonapi()
+    function jsonapi($data, $transformer, $includes = [], $name = null)
     {
-        // TODO make jsonapi response
+        $response = new \NgocTP\EasyJsonApi\JsonApiResponse($data, $transformer, $includes, $name);
+        return $response->response();
     }
 }
