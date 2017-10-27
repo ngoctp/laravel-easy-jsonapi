@@ -19,12 +19,5 @@
         "files": [
             "src/helpers.php"
         ]
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "NgocTP\\EasyJsonApi\\EasyJsonApiServiceProvider"
-            ]
-        }
     }
 }
