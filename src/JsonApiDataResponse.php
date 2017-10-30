@@ -8,7 +8,6 @@
 
 namespace NgocTP\EasyJsonApi;
 
-
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use League\Fractal\Manager;
@@ -18,28 +17,34 @@ use League\Fractal\Resource\Item;
 use League\Fractal\Resource\ResourceAbstract;
 use League\Fractal\Serializer\JsonApiSerializer;
 
-class JsonApiResponse
+class JsonApiDataResponse
 {
+    /**
+     * @var mixed
+     */
     protected $data;
+
     /**
      * @var ExtendedTransformerAbstract
      */
     protected $transformer;
 
-    protected $response;
-
+    /**
+     * @var null|string
+     */
     protected $name;
+
     /**
      * @var Manager
      */
     protected $manager;
 
     /**
-     * JsonApiResponse constructor.
-     * @param $data
+     * JsonApiDataResponse constructor.
+     * @param mixed $data
      * @param ExtendedTransformerAbstract $transformer
      * @param array $includes
-     * @param string $name
+     * @param null|string $name
      */
     public function __construct($data, $transformer, $includes = [], $name = null)
     {
@@ -50,18 +55,24 @@ class JsonApiResponse
         if ($includes) {
             $this->manager->parseIncludes($includes);
         }
-        $this->response = response();
-
     }
 
+    /**
+     * @param array $includes
+     */
     public function includes($includes)
     {
         $this->manager->parseIncludes($includes);
     }
 
-    public function response()
+    /**
+     * @param int $status
+     * @param array $headers
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function response($status = 200, array $headers = array())
     {
-        return response()->json($this->manager->createData($this->createResource())->toArray());
+        return response()->json($this->manager->createData($this->createResource())->toArray(), $status, $headers);
     }
 
     /**
@@ -82,6 +93,9 @@ class JsonApiResponse
         }
     }
 
+    /**
+     * @return string
+     */
     protected function getName()
     {
         return $this->name ?: $this->transformer->getName();
