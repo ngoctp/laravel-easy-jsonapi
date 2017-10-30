@@ -53,7 +53,7 @@ class JsonApiDataResponse
         $this->transformer = $transformer;
         $this->manager = (new Manager())->setSerializer(new JsonApiSerializer());
         if ($includes) {
-            $this->manager->parseIncludes($includes);
+            $this->includes($includes);
         }
     }
 
