@@ -33,6 +33,46 @@ abstract class ExtendedTransformerAbstract extends TransformerAbstract
         return $this->name;
     }
 
+    public function getValue($key)
+    {
+        return array_get($this->options, $key, null);
+    }
+
+    public function getOptions($key)
+    {
+        return array_get($this->options, $key, []);
+    }
+
+    /**
+     * @param mixed $data
+     * @param callable|ExtendedTransformerAbstract $transformer
+     * @param null $resourceKey
+     * @return \League\Fractal\Resource\Item
+     */
+    public function item($data, $transformer, $resourceKey = null)
+    {
+        return parent::item($data, $transformer, is_null($resourceKey) ? $transformer->getName() : $resourceKey);
+    }
+
+    /**
+     * @param mixed $data
+     * @param callable|ExtendedTransformerAbstract $transformer
+     * @param null $resourceKey
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function collection($data, $transformer, $resourceKey = null)
+    {
+        return parent::collection($data, $transformer, is_null($resourceKey) ? $transformer->getName() : $resourceKey);
+    }
+
+    /**
+     * @return \League\Fractal\Resource\NullResource
+     */
+    public function null()
+    {
+        return parent::null();
+    }
+
     /**
      * @param mixed $resource
      * @return array
