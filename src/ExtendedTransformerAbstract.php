@@ -51,7 +51,7 @@ abstract class ExtendedTransformerAbstract extends TransformerAbstract
      */
     public function item($data, $transformer, $resourceKey = null)
     {
-        return parent::item($data, $transformer, is_null($resourceKey) ? $transformer->getName() : $resourceKey);
+        return parent::item($data, $transformer, is_null($resourceKey) && !is_callable($transformer) ? $transformer->getName() : $resourceKey);
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class ExtendedTransformerAbstract extends TransformerAbstract
      */
     public function collection($data, $transformer, $resourceKey = null)
     {
-        return parent::collection($data, $transformer, is_null($resourceKey) ? $transformer->getName() : $resourceKey);
+        return parent::collection($data, $transformer, is_null($resourceKey) && !is_callable($transformer) ? $transformer->getName() : $resourceKey);
     }
 
     /**
