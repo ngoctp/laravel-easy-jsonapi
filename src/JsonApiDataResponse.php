@@ -14,6 +14,7 @@ use League\Fractal\Manager;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use League\Fractal\Resource\NullResource;
 use League\Fractal\Resource\ResourceAbstract;
 use League\Fractal\Serializer\JsonApiSerializer;
 
@@ -80,7 +81,9 @@ class JsonApiDataResponse
      */
     private function createResource()
     {
-        if ($this->data instanceof Model) {
+        if (is_null($this->data)) {
+            return new NullResource($this->data, $this->transformer, $this->getName());
+        } else if ($this->data instanceof Model) {
             return new Item($this->data, $this->transformer, $this->getName());
         } else if ($this->data instanceof \Illuminate\Support\Collection) {
             return new Collection($this->data, $this->transformer, $this->getName());
