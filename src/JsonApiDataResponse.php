@@ -93,6 +93,8 @@ class JsonApiDataResponse
             $collection = new Collection($this->data->getCollection(), $this->transformer, $this->getName());
             $collection->setPaginator(new IlluminatePaginatorAdapter($this->data));
             return $collection;
+        } else if ($this->data instanceof \stdClass) {
+            return new Item($this->data, $this->transformer, $this->getName());
         }
     }
 
