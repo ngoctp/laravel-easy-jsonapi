@@ -79,7 +79,7 @@ class JsonApiDataResponse
     /**
      * @return ResourceAbstract
      */
-    private function createResource()
+    protected function createResource()
     {
         if (is_null($this->data)) {
             return new NullResource($this->data, $this->transformer, $this->getName());
